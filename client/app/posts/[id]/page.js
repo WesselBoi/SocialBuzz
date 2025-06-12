@@ -41,7 +41,9 @@ function page() {
         ) : (
           <>
             <div className="p-6 bg-white rounded-lg shadow-md">
-              <h1 className="text-2xl font-bold mb-4 text-center">{post.title}</h1>
+              <h1 className="text-2xl font-bold mb-4 text-center">
+                {post.title}
+              </h1>
               <p className="text-gray-700 mb-4 text-center">{post.content}</p>
               <div className="text-gray-600 mb-4 text-sm flex gap-4 justify-center">
                 <span className="flex items-center gap-1">
@@ -49,15 +51,28 @@ function page() {
                   {post.likes?.length || 0} Likes
                 </span>
                 <span className="flex items-center gap-1">
-                  <MessageCircle size={16} /> {post.comments?.length || 0} Comments
+                  <MessageCircle size={16} /> {post.comments?.length || 0}{" "}
+                  Comments
                 </span>
               </div>
+              {/* Display post image if exists */}
+              {post.image && post.image.url && (
+                <div className="mb-3">
+                  <img
+                    src={post.image.url}
+                    alt="Post image"
+                    className="w-full h-full object-cover rounded-md border"
+                  />
+                </div>
+              )}
               <p className="text-gray-500 text-sm text-center">
                 Posted by {post.userId.username} on{" "}
                 {new Date(post.createdAt).toLocaleDateString()}
               </p>
             </div>
-            <h2 className="text-xl font-semibold mt-8 mb-4 text-center">Comments</h2>
+            <h2 className="text-xl font-semibold mt-8 mb-4 text-center">
+              Comments
+            </h2>
             {post.comments.length > 0 ? (
               <ul className="mt-4 space-y-2">
                 {post.comments.map((comment) => (

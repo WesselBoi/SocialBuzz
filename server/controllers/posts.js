@@ -3,6 +3,8 @@ const Comment = require("../models/comment");
 const { cloudinary } = require("../config/cloudinary");
 
 async function handleCreatePost(req, res) {
+  console.log("req.body:", req.body);
+  console.log("req.file:", req.file);
   // Check if content exists or if there's a file (allowing image-only posts)
   if (!req.body?.content && !req.file) {
     return res.status(400).json({ error: "Content or image is required" });

@@ -2,18 +2,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle , X , Image} from "lucide-react";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem("userId");
     setCurrentUserId(userId);
 
     const fetchPosts = async () => {
@@ -31,24 +33,55 @@ export default function Home() {
     fetchPosts();
   }, []);
 
+  function handleImageSelect(e) {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError("Image size should not exceed 5MB");
+        return;
+      }
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result);
+      }
+      reader.readAsDataURL(file);
+      setError(null);
+    }
+  }
+
+  function removeImage() {
+    setSelectedImage(null);
+    setImagePreview(null);
+    setError(null);
+  }
+
   async function handleCreatePost() {
-    if (!newPost.trim()) {
+    if ( !newPost.trim() && !selectedImage) {
       setError("Post content cannot be empty");
       return;
     }
     try {
       setIsLoading(true);
+      const formData = new FormData();
+      formData.append("content", newPost || "");
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+      }
       const res = await axios.post(
         "http://localhost:8080/api/posts",
-        {
-          content: newPost,
-        },
+        formData,
         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          }
         }
       );
       setPosts([res.data, ...posts]);
       setNewPost("");
+      setSelectedImage(null);
+      setImagePreview(null);
       setError(null);
     } catch (err) {
       console.error("Error creating post:", err);
@@ -94,6 +127,35 @@ export default function Home() {
             placeholder="What's on your mind?"
             className="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none mb-2"
           />
+          {/* Image Preview */}
+          {imagePreview && (
+            <div className="relative mb-2">
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="w-full h-48 object-cover rounded-md border"
+              />
+              <button
+                onClick={removeImage}
+                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          )}
+
+          <div className="flex gap-2 mb-2">
+            <label className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-md cursor-pointer transition-colors">
+              <Image size={16} />
+              <span className="text-sm">Add Image</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+              />
+            </label>
+          </div>
           <button
             onClick={handleCreatePost}
             disabled={isLoading}
@@ -130,19 +192,31 @@ export default function Home() {
                     </h2>
                   </div>
                   <p className="text-gray-800 mb-2">{post.content}</p>
+                  {/* Display post image if exists */}
+                  {post.image && post.image.url && (
+                    <div className="mb-3">
+                      <img
+                        src={post.image.url}
+                        alt="Post image"
+                        className="w-full h-full object-cover rounded-md border"
+                      />
+                    </div>
+                  )}
                   <div className="flex space-x-4 text-sm text-gray-500">
                     <span
                       className={`flex items-center gap-1 cursor-pointer transition-colors ${
-                        isLikedByCurrentUser(post) 
-                          ? 'text-red-500 hover:text-red-600' 
-                          : 'hover:text-red-500'
+                        isLikedByCurrentUser(post)
+                          ? "text-red-500 hover:text-red-600"
+                          : "hover:text-red-500"
                       }`}
                       onClick={(e) => handleLikePost(post._id, e)}
                     >
-                      <Heart 
-                        size={16} 
-                        className={isLikedByCurrentUser(post) ? 'fill-current' : ''} 
-                      /> 
+                      <Heart
+                        size={16}
+                        className={
+                          isLikedByCurrentUser(post) ? "fill-current" : ""
+                        }
+                      />
                       {post.likes?.length || 0} Likes
                     </span>
                     <span className="flex items-center gap-1">

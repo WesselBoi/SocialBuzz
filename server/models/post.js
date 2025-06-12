@@ -7,7 +7,9 @@ const postSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    content: { type: String, required: true },
+    content: { type: String, required: function() {
+      return !this.image || !this.image.url; // Ensure content is required if no image is provided
+    } },
     image: {
       url: {
         type: String,
