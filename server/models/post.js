@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     content: { type: String, required: function() {
-      return !this.image || !this.image.url; // Ensure content is required if no image is provided
+      return !this.image || !this.image.url;
     } },
     image: {
       url: {
