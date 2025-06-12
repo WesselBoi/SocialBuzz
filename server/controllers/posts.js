@@ -1,21 +1,35 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const { cloudinary } = require("../config/cloudinary");
 
 async function handleCreatePost(req, res) {
-  if (!req.body.content) {
-    return res.status(400).json({ error: "Content is required" });
+  // Check if content exists or if there's a file (allowing image-only posts)
+  if (!req.body?.content && !req.file) {
+    return res.status(400).json({ error: "Content or image is required" });
   }
   try {
-    const post = await Post.create({
+    const postData = {
       userId: req.user.userId,
-      content: req.body.content,
-    });
+      content: req.body?.content || "", // Use optional chaining here
+    };
+
+    if (req.file) {
+      postData.image = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+
+    const post = await Post.create(postData);
     const populatedPost = await Post.findById(post._id)
       .populate("userId", "username")
       .populate("comments");
-    
+
     res.status(201).json(populatedPost);
   } catch (error) {
+    if (req.file) {
+      await cloudinary.uploader.destroy(req.file.filename);
+    }
     res.status(400).json({ error: error.message });
   }
 }
@@ -77,7 +91,7 @@ async function handleGetPostById(req, res) {
   try {
     const post = await Post.findById(req.params.id)
       .populate("userId", "username")
-      .populate("comments"); 
+      .populate("comments");
     if (!post) return res.status(404).json({ error: "Post not found" });
     res.json(post);
   } catch (error) {

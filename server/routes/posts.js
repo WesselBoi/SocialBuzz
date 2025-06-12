@@ -1,11 +1,12 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
 const { handleCreatePost , handleLikePost , handleCommentOnPost , handleGetAllPosts , handleGetPostById} = require('../controllers/posts');
+const { upload } = require('../config/cloudinary');
 const router = express.Router();
 
 
 //Create a post
-router.post('/', auth, handleCreatePost);  //auth middleware checks if the user is authenticated
+router.post('/', auth, upload.single('image'),  handleCreatePost);  //auth middleware checks if the user is authenticated
 
 //Like a post
 router.post('/:id/like', auth, handleLikePost);
