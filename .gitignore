@@ -17,6 +17,7 @@ yarn-error.log*
 server/.env
 server/.env.*
 client/.env
+client/issues.txt
 client/.env.*
 
 # Build output
