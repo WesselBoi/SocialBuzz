@@ -143,7 +143,6 @@ export default function Profile() {
           </h2>
           {posts.length > 0 ? (
             posts.map((post) => (
-              <>
                 <Link key={post._id} href={`/posts/${post._id}`}>
                   <div
                     key={post._id}
@@ -169,7 +168,6 @@ export default function Profile() {
                     </div>
                   </div>
                 </Link>
-              </>
             ))
           ) : (
             <p className="text-gray-500">No posts found.</p>

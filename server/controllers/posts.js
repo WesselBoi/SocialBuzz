@@ -79,9 +79,9 @@ async function handleCommentOnPost(req, res) {
 async function handleGetAllPosts(req, res) {
   try {
     const posts = await Post.find()
-      .populate("userId", "username") // replaces userId with the username field from the User model
+      .populate("userId", "username") 
       .populate("comments") // replaces comments with the Comment model
-      .sort({ createdAt: -1 }); // sorts posts by creation date in descending order
+      .sort({ createdAt: -1 }); 
     res.json(posts);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -95,7 +95,12 @@ async function handleGetPostById(req, res) {
   try {
     const post = await Post.findById(req.params.id)
       .populate("userId", "username")
-      .populate("comments");
+      .populate({
+        path: "comments",
+        populate: {
+          path: "userId", select: "username"
+        }
+      })
     if (!post) return res.status(404).json({ error: "Post not found" });
     res.json(post);
   } catch (error) {
