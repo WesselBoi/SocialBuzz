@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { Heart, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -61,16 +62,17 @@ export default function Profile() {
           {posts.length > 0 ? (
             posts.map((post) => (
               <>
+              <Link key={post._id} href={`/posts/${post._id}`}>
                 <div
                   key={post._id}
                   className="bg-white p-4 rounded-lg shadow-md mb-4"
-                >
+                  >
                   <p>{post.content}</p>
-                  {post.image && (
+                  {post.image.url && (
                     <img
-                      src={post.image.url}
-                      alt="Post"
-                      className="mt-2 w-full h-auto rounded-lg"
+                    src={post.image.url}
+                    alt="Post"
+                    className="mt-2 w-full h-auto rounded-lg"
                     />
                   )}
                   <div className="flex items-center mt-2 gap-10">
@@ -84,6 +86,7 @@ export default function Profile() {
                     </span>
                   </div>
                 </div>
+                  </Link>
               </>
             ))
           ) : (

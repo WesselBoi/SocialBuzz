@@ -69,6 +69,26 @@ function page() {
     }
   }
 
+async function handleLikePost(postId) {
+  try {
+    const res = await axios.post(
+      `http://localhost:8080/api/posts/${postId}/like`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    setPost(res.data); 
+    setError(null);
+  } catch (err) {
+    setError("Failed to like post. Consider logging in.");
+  }
+}
+
+function isLiked(){
+  return post && post.likes && post.likes.includes(localStorage.getItem("userId"));
+}
+
   return (
     <div className="flex justify-center items-start min-h-screen bg-gray-50 py-10">
       <div className="w-full max-w-2xl">
@@ -85,7 +105,11 @@ function page() {
               <p className="text-gray-700 mb-4 text-center">{post.content}</p>
               <div className="text-gray-600 mb-4 text-sm flex gap-4 justify-center">
                 <span className="flex items-center gap-1">
-                  <Heart size={16} className="text-red-500" />
+                  {(isLiked()) ? (
+                    <Heart size={16} className="text-red-500 fill-current" onClick={() => handleLikePost(postId)} />
+                  ) : (
+                    <Heart size={16} className="text-red-500 cursor-pointer hover:fill-red-400 transition-all " onClick={() => handleLikePost(postId)} />
+                  )}
                   {post.likes?.length || 0} Likes
                 </span>
                 <span className="flex items-center gap-1">
