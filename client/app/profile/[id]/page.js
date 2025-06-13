@@ -125,6 +125,7 @@ export default function Profile() {
               <button
                 className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
                 onClick={handleUnfollow}
+                hidden={id === localStorage.getItem("userId")}
               >
                 Unfollow
               </button>
@@ -132,6 +133,7 @@ export default function Profile() {
               <button
                 className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
                 onClick={handleFollow}
+                hidden={id === localStorage.getItem("userId")}
               >
                 Follow
               </button>
