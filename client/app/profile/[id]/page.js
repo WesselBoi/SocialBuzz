@@ -66,6 +66,13 @@ export default function Profile() {
                   className="bg-white p-4 rounded-lg shadow-md mb-4"
                 >
                   <p>{post.content}</p>
+                  {post.image && (
+                    <img
+                      src={post.image.url}
+                      alt="Post"
+                      className="mt-2 w-full h-auto rounded-lg"
+                    />
+                  )}
                   <div className="flex items-center mt-2 gap-10">
                     <span>
                       <Heart size={16} className="text-red-500" />

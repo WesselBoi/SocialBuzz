@@ -13,7 +13,9 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'social-media-posts',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
+    allowed_formats: [
+      'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'svg', 'ico', 'heic', 'heif', 'pdf', 'psd'
+    ],
     transformation: [
       { width: 800, height: 600, crop: 'limit' },
       { quality: 'auto' }

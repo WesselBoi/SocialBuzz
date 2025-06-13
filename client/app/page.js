@@ -198,7 +198,7 @@ export default function Home() {
                       <img
                         src={post.image.url}
                         alt="Post image"
-                        className="w-full h-full object-cover rounded-md border"
+                        className="w-full h-[608px] object-cover rounded-md border"
                       />
                     </div>
                   )}
