@@ -1,31 +1,35 @@
-'use client';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+"use client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
-    const storedUserId = localStorage.getItem('userId');
-    setUserId(storedUserId)
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    const storedUserId = localStorage.getItem("userId");
+    setUserId(storedUserId);
   }, []);
 
   async function handleLogout() {
     try {
-      await axios.post("http://localhost:8080/api/auth/logout", {}, {
-        withCredentials: true 
-      })
-      localStorage.setItem('isLoggedIn' , false); 
-      localStorage.removeItem('userId'); 
+      await axios.post(
+        "http://localhost:8080/api/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      localStorage.setItem("isLoggedIn", false);
+      localStorage.removeItem("userId");
       setIsLoggedIn(false);
-      router.push('/login'); 
+      router.push("/login");
     } catch (err) {
-      console.error('Error logging out:', err);
+      console.error("Error logging out:", err);
     }
   }
 
@@ -41,10 +45,7 @@ export default function Navbar() {
               <Link href={`/profile/${userId}`} className="hover:underline">
                 Profile
               </Link>
-              <button
-                onClick={handleLogout}
-                className="hover:underline"
-              >
+              <button onClick={handleLogout} className="hover:underline">
                 Logout
               </button>
             </>
@@ -58,6 +59,9 @@ export default function Navbar() {
               </Link>
             </>
           )}
+          <Link href="/search" className="hover:underline">
+            Search
+          </Link>
         </div>
       </div>
     </nav>

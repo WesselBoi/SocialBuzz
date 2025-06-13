@@ -99,7 +99,7 @@ return (
                 disabled={isLoading}
                 className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
-                {isLoading ? 'Logging in...' : 'Login'}
+                {isLoading ? 'Registering...' : 'Register'}
             </button>
             <p className="mt-4 text-center text-gray-600">
                 Already have an account?{' '}
