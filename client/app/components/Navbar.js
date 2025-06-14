@@ -64,6 +64,7 @@ export default function Navbar() {
 
   return (
     <>
+    <div className="mb-10"></div>
       {/* Desktop sidebar */}
       <nav className="hidden md:flex fixed top-0 left-0 h-full w-56 bg-blue-600 text-white flex-col justify-between py-8 px-4 z-40">
         <div>
@@ -115,8 +116,6 @@ export default function Navbar() {
           </div>
         )}
       </nav>
-      {/* Add padding to main content so it's not hidden behind sidebar/navbar */}
-      <div className="md:pl-56 pt-16" />
     </>
   );
 }

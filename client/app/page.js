@@ -13,6 +13,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [likeError, setLikeError] = useState(null);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -61,6 +62,11 @@ export default function Home() {
       setError("Post content cannot be empty");
       return;
     }
+    if (currentUserId === null || currentUserId === undefined) {
+      setError("You must be logged in to create a post.");
+      setTimeout(() => setError(null), 3000);
+      return;
+    }
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -94,6 +100,12 @@ export default function Home() {
   async function handleLikePost(postId, event) {
     event.preventDefault();
     event.stopPropagation();
+    if (!currentUserId) {
+      window.alert("You must be logged in to like a post.");
+      setLikeError("You must be logged in to like a post.");
+      setTimeout(() => setLikeError(null), 3000);
+      return;
+    }
     try {
       const res = await axios.post(
         `http://localhost:8080/api/posts/${postId}/like`,
@@ -105,7 +117,7 @@ export default function Home() {
       setPosts(posts.map((post) => (post._id === postId ? res.data : post)));
       setError(null);
     } catch (err) {
-      setError("Failed to like post. Consider logging in.");
+      setError("Failed to like post. Please try again.");
     }
   }
 
@@ -168,6 +180,7 @@ export default function Home() {
               {isLoading ? "Posting..." : "Post"}
             </button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
+            {likeError && <p className="text-red-500 mt-2">{likeError}</p>}
           </div>
 
           {/* Posts section with loading state */}
@@ -227,6 +240,9 @@ export default function Home() {
                         <MessageCircle size={16} /> {post.comments?.length || 0}{" "}
                         Comments
                       </span>
+                      <p>
+
+                      </p>
                     </div>
                   </Link>
                 </div>

@@ -13,6 +13,8 @@ export default function Profile() {
   const [isFollowing, setIsFollowing] = useState();
   const { id } = useParams();
 
+  const currentUser = localStorage.getItem("userId")
+
   useEffect(() => {
     if (!id) return;
     async function fetchUser() {
@@ -57,6 +59,11 @@ export default function Profile() {
 
   async function handleFollow() {
     if (!user) return;
+
+    if(!currentUser || currentUser === 'undefined'){
+      setError("You must be logged in to follow")
+      return
+    }
 
     try {
       const res = await axios.post(
@@ -111,8 +118,6 @@ export default function Profile() {
     <div className="container mx-auto p-4 max-w-2xl">
       {isLoading ? (
         <div className="text-center text-gray-500">Loading...</div>
-      ) : error ? (
-        <div className="text-red-500 text-center">{error}</div>
       ) : (
         <>
           <div className="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -123,7 +128,7 @@ export default function Profile() {
             <p className="text-gray-600">{user.email}</p>
             {isFollowing ? (
               <button
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors cursor-pointer"
                 onClick={handleUnfollow}
                 hidden={id === localStorage.getItem("userId")}
               >
@@ -131,13 +136,15 @@ export default function Profile() {
               </button>
             ) : (
               <button
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors cursor-pointer"
                 onClick={handleFollow}
                 hidden={id === localStorage.getItem("userId")}
               >
                 Follow
               </button>
             )}
+            <br />
+            {error && <p className="mt-2 text-red-500">{error}</p>}
           </div>
 
           <h2 className="text-xl font-semibold mb-4">
