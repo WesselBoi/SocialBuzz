@@ -1,8 +1,9 @@
 'use client'
-import React , {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { UserPlus, Mail, Lock, User, Sparkles } from "lucide-react";
 
 function page() {
     const [username, setUsername] = useState('');
@@ -14,119 +15,183 @@ function page() {
     const router = useRouter();
 
     useEffect(() => {
-      if(localStorage.getItem("userId")){
-        router.push('/')
-      }
-    } , [])
+        if (localStorage.getItem("userId")) {
+            router.push('/')
+        }
+    }, [])
 
     async function handleRegister(e) {
-      e.preventDefault();
-      if (!username || !email || !password || !confirmPassword) {
-        setError('All fields are required');
-        return;
-      }
-      if (password !== confirmPassword) {
-        setError('Passwords do not match');
-        return;
-      }
-      try {
-        setIsLoading(true);
-        const res = await axios.post('http://localhost:8080/api/auth/register', {
-          username,
-          email,
-          password
-        }, {
-          withCredentials: true
-        } , {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        setIsLoading(false);
-        router.push('/login'); 
-      } catch (err) {
-        console.error('Error registering:', err);
-        setError('Failed to register. Please try again.');
-        setIsLoading(false);
-      }
+        e.preventDefault();
+        if (!username || !email || !password || !confirmPassword) {
+            setError('All fields are required');
+            return;
+        }
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+        try {
+            setIsLoading(true);
+            const res = await axios.post('http://localhost:8080/api/auth/register', {
+                username,
+                email,
+                password
+            }, {
+                withCredentials: true
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            setIsLoading(false);
+            router.push('/login');
+        } catch (err) {
+            console.error('Error registering:', err);
+            setError('Failed to register. Please try again.');
+            setIsLoading(false);
+        }
     }
 
-return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        {/* Desktop sidebar spacing */}
-        <div className="hidden md:block md:w-56 flex-shrink-0 fixed" />
-        
-        {/* Main content with proper spacing */}
-        <div className="md:ml-56 pt-20 md:pt-8 px-4 w-full flex items-center justify-center">
-            <form
-                onSubmit={handleRegister}
-                className="bg-white p-6 md:p-8 rounded-lg shadow-md w-full max-w-md mx-auto"
-            >
-                <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-                {error && (
-                    <p className="text-red-500 mb-4 text-center text-sm">{error}</p>
-                )}
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2 text-sm font-medium">Username:</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
-                        placeholder="Enter your username"
-                    />
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 flex flex-col md:flex-row">
+            {/* Left padding for sidebar on desktop */}
+            <div className="hidden md:block md:w-64 flex-shrink-0" />
+
+            {/* Main content */}
+            <main className="flex-1 flex items-center justify-center px-4 py-8">
+                <div className="w-full max-w-md">
+                    {/* Logo/Header */}
+                    <div className="text-center mb-8">
+                        <div className="flex items-center justify-center gap-3 mb-6">
+                            <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+                                <Sparkles className="w-8 h-8 text-white" />
+                            </div>
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
+                                Nexus
+                            </h1>
+                        </div>
+                        <p className="text-gray-400 text-lg">Join the social revolution</p>
+                    </div>
+
+                    {/* Register Form */}
+                    <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
+                                <UserPlus className="w-5 h-5 text-white" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-200">Create Account</h2>
+                        </div>
+
+                        {error && (
+                            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                                <p className="text-red-400 text-sm">{error}</p>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleRegister} className="space-y-6">
+                            <div>
+                                <label className="block text-gray-300 mb-2 text-sm font-medium">
+                                    Username
+                                </label>
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <input
+                                        type="text"
+                                        value={username}
+                                        onChange={e => setUsername(e.target.value)}
+                                        required
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        placeholder="Choose a username"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-gray-300 mb-2 text-sm font-medium">
+                                    Email Address
+                                </label>
+                                <div className="relative">
+                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        required
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        placeholder="Enter your email"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-gray-300 mb-2 text-sm font-medium">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={e => setPassword(e.target.value)}
+                                        required
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        placeholder="Create a password"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-gray-300 mb-2 text-sm font-medium">
+                                    Confirm Password
+                                </label>
+                                <div className="relative">
+                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <input
+                                        type="password"
+                                        value={confirmPassword}
+                                        onChange={e => setConfirmPassword(e.target.value)}
+                                        required
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        placeholder="Confirm your password"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        Creating Account...
+                                    </>
+                                ) : (
+                                    <>
+                                        <UserPlus size={18} />
+                                        Create Account
+                                    </>
+                                )}
+                            </button>
+                        </form>
+
+                        <div className="mt-6 pt-6 border-t border-gray-700/50">
+                            <p className="text-center text-gray-400">
+                                Already have an account?{' '}
+                                <Link 
+                                    href="/login" 
+                                    className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-200"
+                                >
+                                    Sign In
+                                </Link>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2 text-sm font-medium">Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
-                        placeholder="Enter your email"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 mb-2 text-sm font-medium">Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
-                        placeholder="Enter your password"
-                    />
-                </div>
-                <div className="mb-6">
-                    <label className="block text-gray-700 mb-2 text-sm font-medium">Confirm Password:</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
-                        placeholder="Confirm your password"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 font-medium"
-                >
-                    {isLoading ? 'Registering...' : 'Register'}
-                </button>
-                <p className="mt-4 text-center text-gray-600 text-sm">
-                    Already have an account?{' '}
-                    <Link href="/login" className="text-blue-600 hover:underline font-medium">
-                        Login
-                    </Link>
-                </p>
-            </form>
+            </main>
         </div>
-    </div>
-)
+    )
 }
 
 export default page

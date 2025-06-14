@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Home, User, Search, LogOut, LogIn, UserPlus, Menu, X, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -37,85 +38,144 @@ export default function Navbar() {
   // Navigation links for reuse
   const navLinks = (
     <>
+      <Link href="/" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-xl transition-all duration-200 group">
+        <Home size={20} className="group-hover:text-purple-400 transition-colors" />
+        <span className="font-medium">Home</span>
+      </Link>
+      
+      <Link href="/search" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-xl transition-all duration-200 group">
+        <Search size={20} className="group-hover:text-purple-400 transition-colors" />
+        <span className="font-medium">Search</span>
+      </Link>
+
       {isLoggedIn ? (
         <>
-          <Link href={`/profile/${userId}`} className="hover:underline block px-4 py-2">
-            Profile
+          <Link href={`/profile/${userId}`} className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-xl transition-all duration-200 group">
+            <User size={20} className="group-hover:text-purple-400 transition-colors" />
+            <span className="font-medium">Profile</span>
           </Link>
-          <button onClick={handleLogout} className="hover:underline block px-4 py-2 text-left w-full">
-            Logout
+          <button 
+            onClick={handleLogout} 
+            className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-200 group w-full text-left"
+          >
+            <LogOut size={20} className="group-hover:text-red-400 transition-colors" />
+            <span className="font-medium">Logout</span>
           </button>
         </>
       ) : (
         <>
-          <Link href="/login" className="hover:underline block px-4 py-2">
-            Login
+          <Link href="/login" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-xl transition-all duration-200 group">
+            <LogIn size={20} className="group-hover:text-purple-400 transition-colors" />
+            <span className="font-medium">Login</span>
           </Link>
-          <Link href="/register" className="hover:underline block px-4 py-2">
-            Register
+          <Link href="/register" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-xl transition-all duration-200 group">
+            <UserPlus size={20} className="group-hover:text-purple-400 transition-colors" />
+            <span className="font-medium">Register</span>
           </Link>
         </>
       )}
-      <Link href="/search" className="hover:underline block px-4 py-2">
-        Search
-      </Link>
     </>
   );
 
   return (
     <>
-    <div className="mb-10"></div>
+      <div className="mb-15 md:mb-0"></div>
+      
       {/* Desktop sidebar */}
-      <nav className="hidden md:flex fixed top-0 left-0 h-full w-56 bg-blue-600 text-white flex-col justify-between py-8 px-4 z-40">
-        <div>
-          <Link href="/" className="text-2xl font-bold mb-8 block">
-            Social Media
+      <nav className="hidden md:flex fixed top-0 left-0 h-full w-64 bg-gray-900/95 backdrop-blur-xl border-r border-gray-700/50 flex-col py-8 px-4 z-40 shadow-2xl">
+        <div className="flex-1">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 mb-12 px-4 group">
+            <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl group-hover:scale-110 transition-transform duration-200">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Nexus
+            </span>
           </Link>
-          <div className="space-y-2">{navLinks}</div>
+          
+          {/* Navigation Links */}
+          <div className="space-y-2">
+            {navLinks}
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="pt-6 border-t border-gray-700/50">
+          <p className="text-xs text-gray-500 px-4">
+            © 2024 Nexus Social
+          </p>
         </div>
       </nav>
 
       {/* Mobile navbar */}
-      <nav className="md:hidden bg-blue-600 text-white p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
-        <Link href="/" className="text-xl font-bold">
-          Social Media
+      <nav className="md:hidden bg-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50 shadow-lg">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+            <Sparkles className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Nexus
+          </span>
         </Link>
+        
         <button
-          className="focus:outline-none"
+          className="p-2 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-lg transition-all duration-200"
           aria-label="Open menu"
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={() => setMenuOpen(true)}
         >
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
-            <rect y="5" width="24" height="2" rx="1" fill="white" />
-            <rect y="11" width="24" height="2" rx="1" fill="white" />
-            <rect y="17" width="24" height="2" rx="1" fill="white" />
-          </svg>
+          <Menu size={24} />
         </button>
-        {/* Mobile menu overlay */}
-        {menuOpen && (
-          <div
-            className="fixed inset-0 bg-transparent bg-opacity-60 backdrop-blur-xs z-50"
+      </nav>
+
+      {/* Mobile menu overlay */}
+      {menuOpen && (
+        <div className="md:hidden fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setMenuOpen(false)}
-          >
-            <div
-              className="absolute top-0 left-0 w-56 h-full bg-blue-600 shadow-lg flex flex-col py-8 px-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="self-end mb-6 focus:outline-none"
-                aria-label="Close menu"
-                onClick={() => setMenuOpen(false)}
-              >
-                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
-                  <line x1="6" y1="6" x2="18" y2="18" stroke="white" strokeWidth="2" />
-                  <line x1="18" y1="6" x2="6" y2="18" stroke="white" strokeWidth="2" />
-                </svg>
-              </button>
-              <div className="space-y-2">{navLinks}</div>
+          />
+          
+          {/* Menu Panel */}
+          <div className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-gray-900/95 backdrop-blur-xl border-l border-gray-700/50 shadow-2xl">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-700/50">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+                    <Sparkles className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Nexus
+                  </span>
+                </div>
+                <button
+                  className="p-2 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-lg transition-all duration-200"
+                  aria-label="Close menu"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              
+              {/* Navigation Links */}
+              <div className="flex-1 p-6">
+                <div className="space-y-2">
+                  {navLinks}
+                </div>
+              </div>
+              
+              {/* Footer */}
+              <div className="p-6 border-t border-gray-700/50">
+                <p className="text-xs text-gray-500">
+                  © 2024 Nexus Social
+                </p>
+              </div>
             </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
     </>
   );
 }
