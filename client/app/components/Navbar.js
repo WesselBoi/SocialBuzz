@@ -8,6 +8,7 @@ export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
@@ -33,37 +34,89 @@ export default function Navbar() {
     }
   }
 
+  // Navigation links for reuse
+  const navLinks = (
+    <>
+      {isLoggedIn ? (
+        <>
+          <Link href={`/profile/${userId}`} className="hover:underline block px-4 py-2">
+            Profile
+          </Link>
+          <button onClick={handleLogout} className="hover:underline block px-4 py-2 text-left w-full">
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <Link href="/login" className="hover:underline block px-4 py-2">
+            Login
+          </Link>
+          <Link href="/register" className="hover:underline block px-4 py-2">
+            Register
+          </Link>
+        </>
+      )}
+      <Link href="/search" className="hover:underline block px-4 py-2">
+        Search
+      </Link>
+    </>
+  );
+
   return (
-    <nav className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
+    <>
+      {/* Desktop sidebar */}
+      <nav className="hidden md:flex fixed top-0 left-0 h-full w-56 bg-blue-600 text-white flex-col justify-between py-8 px-4 z-40">
+        <div>
+          <Link href="/" className="text-2xl font-bold mb-8 block">
+            Social Media
+          </Link>
+          <div className="space-y-2">{navLinks}</div>
+        </div>
+      </nav>
+
+      {/* Mobile navbar */}
+      <nav className="md:hidden bg-blue-600 text-white p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
         <Link href="/" className="text-xl font-bold">
           Social Media
         </Link>
-        <div className="space-x-4">
-          {isLoggedIn ? (
-            <>
-              <Link href={`/profile/${userId}`} className="hover:underline">
-                Profile
-              </Link>
-              <button onClick={handleLogout} className="hover:underline">
-                Logout
+        <button
+          className="focus:outline-none"
+          aria-label="Open menu"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+            <rect y="5" width="24" height="2" rx="1" fill="white" />
+            <rect y="11" width="24" height="2" rx="1" fill="white" />
+            <rect y="17" width="24" height="2" rx="1" fill="white" />
+          </svg>
+        </button>
+        {/* Mobile menu overlay */}
+        {menuOpen && (
+          <div
+            className="fixed inset-0 bg-transparent bg-opacity-60 backdrop-blur-xs z-50"
+            onClick={() => setMenuOpen(false)}
+          >
+            <div
+              className="absolute top-0 left-0 w-56 h-full bg-blue-600 shadow-lg flex flex-col py-8 px-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="self-end mb-6 focus:outline-none"
+                aria-label="Close menu"
+                onClick={() => setMenuOpen(false)}
+              >
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                  <line x1="6" y1="6" x2="18" y2="18" stroke="white" strokeWidth="2" />
+                  <line x1="18" y1="6" x2="6" y2="18" stroke="white" strokeWidth="2" />
+                </svg>
               </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="hover:underline">
-                Login
-              </Link>
-              <Link href="/register" className="hover:underline">
-                Register
-              </Link>
-            </>
-          )}
-          <Link href="/search" className="hover:underline">
-            Search
-          </Link>
-        </div>
-      </div>
-    </nav>
+              <div className="space-y-2">{navLinks}</div>
+            </div>
+          </div>
+        )}
+      </nav>
+      {/* Add padding to main content so it's not hidden behind sidebar/navbar */}
+      <div className="md:pl-56 pt-16" />
+    </>
   );
 }

@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle , ArrowBigLeft } from "lucide-react";
 
 function page() {
   const [post, setPost] = useState(null);
@@ -69,28 +69,34 @@ function page() {
     }
   }
 
-async function handleLikePost(postId) {
-  try {
-    const res = await axios.post(
-      `http://localhost:8080/api/posts/${postId}/like`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
-    setPost(res.data); 
-    setError(null);
-  } catch (err) {
-    setError("Failed to like post. Consider logging in.");
+  async function handleLikePost(postId) {
+    try {
+      const res = await axios.post(
+        `http://localhost:8080/api/posts/${postId}/like`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setPost(res.data);
+      setError(null);
+    } catch (err) {
+      setError("Failed to like post. Consider logging in.");
+    }
   }
-}
 
-function isLiked(){
-  return post && post.likes && post.likes.includes(localStorage.getItem("userId"));
-}
+  function isLiked() {
+    return (
+      post && post.likes && post.likes.includes(localStorage.getItem("userId"))
+    );
+  }
 
   return (
     <div className="flex justify-center items-start min-h-screen bg-gray-50 py-10">
+      <Link href={"/"} className="bg-blue-500 text-white font-semibold p-2">
+      <ArrowBigLeft />
+      </Link>
+      <div className="hidden md:block md:w-56 flex-shrink-0" />
       <div className="w-full max-w-2xl">
         {isLoading ? (
           <div className="text-center text-gray-500">Loading...</div>
@@ -105,10 +111,18 @@ function isLiked(){
               <p className="text-gray-700 mb-4 text-center">{post.content}</p>
               <div className="text-gray-600 mb-4 text-sm flex gap-4 justify-center">
                 <span className="flex items-center gap-1">
-                  {(isLiked()) ? (
-                    <Heart size={16} className="text-red-500 fill-current" onClick={() => handleLikePost(postId)} />
+                  {isLiked() ? (
+                    <Heart
+                      size={16}
+                      className="text-red-500 fill-current"
+                      onClick={() => handleLikePost(postId)}
+                    />
                   ) : (
-                    <Heart size={16} className="text-red-500 cursor-pointer hover:fill-red-400 transition-all " onClick={() => handleLikePost(postId)} />
+                    <Heart
+                      size={16}
+                      className="text-red-500 cursor-pointer hover:fill-red-400 transition-all "
+                      onClick={() => handleLikePost(postId)}
+                    />
                   )}
                   {post.likes?.length || 0} Likes
                 </span>
@@ -128,7 +142,10 @@ function isLiked(){
                 </div>
               )}
               <p className="text-gray-500 text-sm text-center">
-                <Link href={`/profile/${post.userId._id}`} className="hover:underline">
+                <Link
+                  href={`/profile/${post.userId._id}`}
+                  className="hover:underline"
+                >
                   Posted by {post.userId.username} on{" "}
                 </Link>
                 {new Date(post.createdAt).toLocaleDateString()}
