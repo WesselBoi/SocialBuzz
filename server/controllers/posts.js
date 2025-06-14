@@ -10,7 +10,7 @@ async function handleCreatePost(req, res) {
   try {
     const postData = {
       userId: req.user.userId,
-      content: req.body?.content || "", // Use optional chaining here
+      content: req.body?.content || "", 
     };
 
     if (req.file) {
@@ -34,15 +34,20 @@ async function handleCreatePost(req, res) {
   }
 }
 
-async function handleLikePost(req, res) {
+async function handleLikeAndUnlikePost(req, res) {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ error: "Post not found" });
 
-    if (!post.likes.includes(req.user.userId)) {
-      post.likes.push(req.user.userId);
-      await post.save();
+    const userId = req.user.userId
+    const isLiked = post.likes.includes(userId);
+
+    if (!isLiked) {
+      post.likes.push(userId);    //Like
+    } else{
+      post.likes = post.likes.filter((id) => id.toString() !== userId.toString())   //Unlike
     }
+    await post.save();
 
     const updatedPost = await Post.findById(req.params.id)
       .populate("userId", "username")
@@ -53,6 +58,7 @@ async function handleLikePost(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 async function handleCommentOnPost(req, res) {
   try {
@@ -110,7 +116,7 @@ async function handleGetPostById(req, res) {
 
 module.exports = {
   handleCreatePost,
-  handleLikePost,
+  handleLikeAndUnlikePost,
   handleCommentOnPost,
   handleGetAllPosts,
   handleGetPostById,

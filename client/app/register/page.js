@@ -1,5 +1,5 @@
 'use client'
-import React , {useState} from 'react'
+import React , {useEffect, useState} from 'react'
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,12 @@ function page() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+      if(localStorage.getItem("userId")){
+        router.push('/')
+      }
+    } , [])
 
     async function handleRegister(e) {
       e.preventDefault();

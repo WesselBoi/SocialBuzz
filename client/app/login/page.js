@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,12 @@ function page() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage.getItem("userId")) {
+      router.push("/");
+    }
+  }, []);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -52,7 +58,7 @@ function page() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       {/* Desktop sidebar spacing */}
       <div className="hidden md:block md:w-56 flex-shrink-0 fixed" />
-      
+
       {/* Main content with proper spacing */}
       <div className="md:ml-56 pt-20 md:pt-8 px-4 w-full flex items-center justify-center">
         <form
@@ -64,7 +70,9 @@ function page() {
             <p className="text-red-500 mb-4 text-center text-sm">{error}</p>
           )}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-sm font-medium">Email:</label>
+            <label className="block text-gray-700 mb-2 text-sm font-medium">
+              Email:
+            </label>
             <input
               type="email"
               value={email}
@@ -75,7 +83,9 @@ function page() {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 mb-2 text-sm font-medium">Password:</label>
+            <label className="block text-gray-700 mb-2 text-sm font-medium">
+              Password:
+            </label>
             <input
               type="password"
               value={password}
@@ -94,7 +104,10 @@ function page() {
           </button>
           <p className="mt-4 text-center text-gray-600 text-sm">
             Don't have an account?{" "}
-            <Link href="/register" className="text-blue-600 hover:underline font-medium">
+            <Link
+              href="/register"
+              className="text-blue-600 hover:underline font-medium"
+            >
               Register
             </Link>
           </p>

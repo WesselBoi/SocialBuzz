@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
-const { handleCreatePost , handleLikePost , handleCommentOnPost , handleGetAllPosts , handleGetPostById} = require('../controllers/posts');
+const { handleCreatePost , handleLikeAndUnlikePost , handleCommentOnPost , handleGetAllPosts , handleGetPostById} = require('../controllers/posts');
 const { upload } = require('../config/cloudinary');
 const router = express.Router();
 
@@ -8,8 +8,8 @@ const router = express.Router();
 //Create a post
 router.post('/', auth, upload.single('image'),  handleCreatePost);  //auth middleware checks if the user is authenticated
 
-//Like a post
-router.post('/:id/like', auth, handleLikePost);
+//Like or Unlike a post
+router.post('/:id/like', auth, handleLikeAndUnlikePost);
 
 
 //Comment on a post
