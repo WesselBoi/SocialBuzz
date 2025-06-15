@@ -127,7 +127,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900 flex flex-col md:flex-row">
       {/* Left padding for sidebar on desktop */}
       <div className="hidden md:block md:w-64 flex-shrink-0" />
       
@@ -137,10 +137,10 @@ export default function Home() {
         <div className="w-full max-w-2xl mb-8">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+              <div className="p-3 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-2xl shadow-lg">
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
                 Nexus
               </h1>
             </div>
@@ -149,14 +149,14 @@ export default function Home() {
         </div>
 
         {/* Create Post Card */}
-        <div className="w-full max-w-2xl bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 mb-8 shadow-2xl">
+        <div className="w-full max-w-2xl bg-gradient-to-br from-[#0B192C] to-[#1E3E62]/50 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 mb-8 shadow-2xl">
           <div className="create-post">
             <div className="relative">
               <textarea
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="What's happening?"
-                className="w-full h-32 p-4 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent resize-none transition-all duration-200"
+                className="w-full h-32 p-4 bg-black/30 border border-[#1E3E62]/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6500]/50 focus:border-[#FF6500]/50 resize-none transition-all duration-200 backdrop-blur-sm"
               />
               {newPost && (
                 <div className="absolute bottom-2 right-2 text-xs text-gray-500">
@@ -171,11 +171,11 @@ export default function Home() {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="w-full h-64 object-cover rounded-xl border border-gray-600/50"
+                  className="w-full h-64 object-cover rounded-xl border border-[#1E3E62]/50"
                 />
                 <button
                   onClick={removeImage}
-                  className="absolute top-3 right-3 bg-red-500/80 backdrop-blur-sm text-white rounded-full p-2 hover:bg-red-600 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                  className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 backdrop-blur-sm text-white rounded-full p-2 hover:from-red-600 hover:to-red-700 transition-all duration-200 opacity-0 group-hover:opacity-100"
                 >
                   <X size={16} />
                 </button>
@@ -184,8 +184,8 @@ export default function Home() {
 
             <div className="flex items-center justify-between mt-4">
               <div className="flex gap-3">
-                <label className="flex items-center gap-2 bg-gray-700/50 hover:bg-gray-600/50 px-4 py-2 rounded-xl cursor-pointer transition-all duration-200 border border-gray-600/50 hover:border-gray-500/50">
-                  <Image size={18} className="text-purple-400" />
+                <label className="flex items-center gap-2 bg-gradient-to-r from-[#1E3E62]/50 to-[#1E3E62]/30 hover:from-[#1E3E62]/70 hover:to-[#1E3E62]/50 px-4 py-2 rounded-xl cursor-pointer transition-all duration-200 border border-[#1E3E62]/50 hover:border-[#FF6500]/50 backdrop-blur-sm">
+                  <Image size={18} className="text-[#FF6500]" />
                   <span className="text-sm text-gray-300">Photo</span>
                   <input
                     type="file"
@@ -199,7 +199,7 @@ export default function Home() {
               <button
                 onClick={handleCreatePost}
                 disabled={isLoading || (!newPost.trim() && !selectedImage)}
-                className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-purple-500/25"
+                className="flex items-center gap-2 bg-gradient-to-r from-[#FF6500] to-orange-600 hover:from-orange-600 hover:to-[#FF6500] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-[#FF6500]/25"
               >
                 {isLoading ? (
                   <>
@@ -216,12 +216,12 @@ export default function Home() {
             </div>
 
             {error && (
-              <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
+              <div className="mt-4 p-3 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
                 <p className="text-red-400 text-sm">{error}</p>
               </div>
             )}
             {likeError && (
-              <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
+              <div className="mt-4 p-3 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
                 <p className="text-red-400 text-sm">{likeError}</p>
               </div>
             )}
@@ -229,46 +229,56 @@ export default function Home() {
         </div>
 
         {/* Posts Feed */}
-        <div className="w-full max-w-2xl space-y-6">
-          {isLoadingPosts ? (
-            <div className="text-center py-12">
-              <div className="inline-block w-8 h-8 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-4"></div>
-              <p className="text-gray-400">Loading your feed...</p>
-            </div>
-          ) : posts.length === 0 ? (
-            <div className="text-center py-12 bg-gray-800/30 backdrop-blur-xl border border-gray-700/50 rounded-2xl">
-              <div className="p-4 bg-gray-700/50 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <MessageCircle className="w-8 h-8 text-gray-400" />
+          <div className="w-full max-w-2xl space-y-6">
+            {isLoadingPosts ? (
+              <div className="text-center py-12">
+                <div className="inline-block w-8 h-8 border-4 border-[#FF6500]/30 border-t-[#FF6500] rounded-full animate-spin mb-4"></div>
+                <p className="text-gray-400">Loading your feed...</p>
               </div>
-              <p className="text-gray-400 text-lg mb-2">No posts yet</p>
-              <p className="text-gray-500">Be the first to share something amazing!</p>
-            </div>
-          ) : (
-            posts.map((post) => (
-              <div
-                key={post._id}
-                className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 cursor-pointer group hover:border-gray-600/50"
-              >
-                <Link href={`/posts/${post._id}`} className="cursor-auto">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                      {post.userId?.username?.[0]?.toUpperCase() || "U"}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-200 text-lg">
-                        {post.userId?.username || "Unknown User"}
-                      </h3>
-                      <p className="text-gray-400 text-sm">Just now</p>
-                    </div>
-                  </div>
-                  
-                  {post.content && (
-                    <p className="text-gray-300 mb-4 leading-relaxed text-lg">
-                      {post.content}
-                    </p>
-                  )}
+            ) : posts.length === 0 ? (
+              <div className="text-center py-12 bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl">
+                <div className="p-4 bg-gradient-to-r from-[#1E3E62]/30 to-[#1E3E62]/20 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <MessageCircle className="w-8 h-8 text-gray-400" />
+                </div>
+                <p className="text-gray-400 text-lg mb-2">No posts yet</p>
+                <p className="text-gray-500">Be the first to share something amazing!</p>
+              </div>
+            ) : (
+              posts.map((post) => (
+                <div
+            key={post._id}
+            className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 shadow-2xl hover:shadow-2xl hover:shadow-[#FF6500]/10 transition-all duration-300 cursor-pointer group hover:border-[#1E3E62]/50"
+                >
+            <Link href={`/posts/${post._id}`} className="cursor-auto">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
+                  {post.userId?.username?.[0]?.toUpperCase() || "U"}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-white text-lg">
+              {post.userId?.username || "Unknown User"}
+                  </h3>
+                  <p className="text-gray-400 text-sm">
+              {post.createdAt
+                ? new Date(post.createdAt).toLocaleString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : ""}
+                  </p>
+                </div>
+              </div>
+              
+              {post.content && (
+                <p className="text-gray-300 mb-4 leading-relaxed text-lg">
+                  {post.content}
+                </p>
+              )}
 
-                  {/* Post Image */}
+              {/* Post Image */}
                   {post.image && post.image.url && (
                     <div className="mb-4 rounded-xl overflow-hidden">
                       <img
@@ -280,12 +290,12 @@ export default function Home() {
                   )}
 
                   {/* Interaction Bar */}
-                  <div className="flex items-center gap-6 pt-4 border-t border-gray-700/50">
+                  <div className="flex items-center gap-6 pt-4 border-t border-[#1E3E62]/30">
                     <button
                       className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
                         isLikedByCurrentUser(post)
-                          ? "text-red-400 bg-red-500/10 hover:bg-red-500/20 cursor-pointer"
-                          : "text-gray-400 hover:text-red-400 hover:bg-red-500/10 cursor-pointer"
+                          ? "text-[#FF6500] bg-gradient-to-r from-[#FF6500]/10 to-orange-600/10 hover:from-[#FF6500]/20 hover:to-orange-600/20 cursor-pointer"
+                          : "text-gray-400 hover:text-[#FF6500] hover:bg-gradient-to-r hover:from-[#FF6500]/10 hover:to-orange-600/10 cursor-pointer"
                       }`}
                       onClick={(e) => handleLikePost(post._id, e)}
                     >
@@ -296,7 +306,7 @@ export default function Home() {
                       <span className="font-medium">{post.likes?.length || 0}</span>
                     </button>
                     
-                    <div className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl transition-all duration-200">
+                    <div className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-[#1E3E62] hover:bg-gradient-to-r hover:from-[#1E3E62]/10 hover:to-[#1E3E62]/5 rounded-xl transition-all duration-200">
                       <MessageCircle size={18} />
                       <span className="font-medium">{post.comments?.length || 0}</span>
                     </div>

@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Heart, MessageCircle, ArrowLeft, Send, User, Clock, Image as ImageIcon } from "lucide-react";
+import { Heart, MessageCircle, ArrowLeft, Send, User, Clock, Image as ImageIcon, Sparkles } from "lucide-react";
 
 function page() {
   const [post, setPost] = useState(null);
@@ -118,7 +118,7 @@ function page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900">
       {/* Desktop sidebar spacing */}
       <div className="hidden md:block md:w-64 flex-shrink-0 fixed" />
 
@@ -129,25 +129,25 @@ function page() {
           <div className="mb-8">
             <Link
               href="/"
-              className="inline-flex items-center gap-3 bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 hover:text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 backdrop-blur-xl border border-gray-700/50 hover:border-gray-600/50 group"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-[#1E3E62]/50 to-[#1E3E62]/30 hover:from-[#1E3E62]/70 hover:to-[#1E3E62]/50 text-gray-300 hover:text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 backdrop-blur-xl border border-[#1E3E62]/50 hover:border-[#FF6500]/50 group"
             >
-              <ArrowLeft size={20} className="group-hover:text-purple-400 transition-colors" />
+              <ArrowLeft size={20} className="group-hover:text-[#FF6500] transition-colors" />
               <span>Back to Feed</span>
             </Link>
           </div>
 
           {isLoading ? (
             <div className="text-center py-20">
-              <div className="inline-block w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-6"></div>
+              <div className="inline-block w-12 h-12 border-4 border-[#FF6500]/30 border-t-[#FF6500] rounded-full animate-spin mb-6"></div>
               <p className="text-gray-400 text-lg">Loading post...</p>
             </div>
           ) : error ? (
             <div className="text-center py-20">
-              <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-2xl max-w-md mx-auto">
+              <div className="p-6 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-2xl max-w-md mx-auto">
                 <p className="text-red-400 text-lg mb-4">{error}</p>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-xl transition-all duration-200"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 text-red-400 px-4 py-2 rounded-xl transition-all duration-200"
                 >
                   <ArrowLeft size={16} />
                   Go Back
@@ -157,10 +157,10 @@ function page() {
           ) : (
             <div className="space-y-8">
               {/* Main Post Card */}
-              <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
+              <div className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-8 shadow-2xl">
                 {/* Post Header */}
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                  <div className="w-16 h-16 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg">
                     {post.userId?.username?.[0]?.toUpperCase() || "U"}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -190,7 +190,7 @@ function page() {
 
                 {/* Post Image */}
                 {post.image && post.image.url && (
-                  <div className="mb-6 rounded-2xl overflow-hidden">
+                  <div className="mb-6 rounded-2xl overflow-hidden border border-[#1E3E62]/50">
                     <img
                       src={post.image.url}
                       alt="Post image"
@@ -200,13 +200,13 @@ function page() {
                 )}
 
                 {/* Interaction Bar */}
-                <div className="flex items-center gap-6 pt-6 border-t border-gray-700/50">
+                <div className="flex items-center gap-6 pt-6 border-t border-[#1E3E62]/30">
                   <button
                     onClick={() => handleLikePost(postId)}
                     className={`flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
                       isLiked()
-                        ? "text-red-400 bg-red-500/10 hover:bg-red-500/20"
-                        : "text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+                        ? "text-[#FF6500] bg-gradient-to-r from-[#FF6500]/10 to-orange-700/10 hover:from-[#FF6500]/20 hover:to-orange-700/20 cursor-pointer"
+                        : "text-gray-400 hover:text-[#FF6500] hover:bg-gradient-to-r hover:from-[#FF6500]/10 hover:to-orange-700/10 cursor-pointer"
                     }`}
                   >
                     <Heart
@@ -216,14 +216,14 @@ function page() {
                     <span>{post.likes?.length || 0} Likes</span>
                   </button>
                   
-                  <div className="flex items-center gap-3 px-6 py-3 text-gray-400">
+                  <div className="flex items-center gap-3 px-6 py-3 text-gray-400 hover:text-[#1E3E62] hover:bg-gradient-to-r hover:from-[#1E3E62]/10 hover:to-[#1E3E62]/5 rounded-xl transition-all duration-200">
                     <MessageCircle size={20} />
                     <span className="font-medium">{post.comments?.length || 0} Comments</span>
                   </div>
                 </div>
 
                 {error && (
-                  <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                  <div className="mt-4 p-4 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-xl">
                     <p className="text-red-400">{error}</p>
                   </div>
                 )}
@@ -231,20 +231,24 @@ function page() {
 
               {/* Comments Section */}
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-200 flex items-center gap-3">
-                  <MessageCircle size={24} className="text-purple-400" />
-                  Comments ({post.comments?.length || 0})
-                </h2>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-xl">
+                    <MessageCircle className="w-5 h-5 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
+                    Comments ({post.comments?.length || 0})
+                  </h2>
+                </div>
 
                 {/* Add Comment Form */}
-                <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 shadow-xl">
+                <div className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 shadow-xl">
                   <form onSubmit={handleCommentSubmit} className="space-y-4">
                     <div className="relative">
                       <textarea
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Share your thoughts..."
-                        className="w-full h-32 p-4 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent resize-none transition-all duration-200"
+                        className="w-full h-32 p-4 bg-black/30 border border-[#1E3E62]/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6500]/50 focus:border-[#FF6500]/50 resize-none transition-all duration-200 backdrop-blur-sm"
                       />
                       {newComment && (
                         <div className="absolute bottom-2 right-2 text-xs text-gray-500">
@@ -257,7 +261,7 @@ function page() {
                       <button
                         type="submit"
                         disabled={isCommentLoading || !newComment.trim()}
-                        className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-purple-500/25"
+                        className="flex items-center gap-2 bg-gradient-to-r from-[#FF6500] to-orange-700 hover:from-orange-700 hover:to-[#FF6500] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-[#FF6500]/25"
                       >
                         {isCommentLoading ? (
                           <>
@@ -274,7 +278,7 @@ function page() {
                     </div>
 
                     {commentError && (
-                      <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
+                      <div className="p-3 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-xl">
                         <p className="text-red-400 text-sm">{commentError}</p>
                       </div>
                     )}
@@ -287,10 +291,10 @@ function page() {
                     {post.comments.map((comment) => (
                       <div
                         key={comment._id}
-                        className="bg-gray-800/30 backdrop-blur-xl border border-gray-700/30 rounded-xl p-6 shadow-lg hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300"
+                        className="bg-gradient-to-br from-[#0B192C]/60 to-[#1E3E62]/30 backdrop-blur-xl border border-[#1E3E62]/30 rounded-xl p-6 shadow-lg hover:shadow-xl hover:shadow-[#FF6500]/5 transition-all duration-300"
                       >
                         <div className="flex items-start gap-4">
-                          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                          <div className="w-10 h-10 bg-gradient-to-r from-[#1E3E62] to-[#132949] rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
                             {comment.userId?.username?.[0]?.toUpperCase() || "U"}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -315,8 +319,8 @@ function page() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12 bg-gray-800/30 backdrop-blur-xl border border-gray-700/30 rounded-2xl">
-                    <div className="p-4 bg-gray-700/50 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <div className="text-center py-12 bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl">
+                    <div className="p-4 bg-gradient-to-r from-[#1E3E62]/30 to-[#1E3E62]/20 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                       <MessageCircle className="w-8 h-8 text-gray-400" />
                     </div>
                     <p className="text-gray-400 text-lg mb-2">No comments yet</p>

@@ -53,7 +53,7 @@ function page() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 flex flex-col md:flex-row">
+        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900 flex flex-col md:flex-row">
             {/* Left padding for sidebar on desktop */}
             <div className="hidden md:block md:w-64 flex-shrink-0" />
 
@@ -63,10 +63,10 @@ function page() {
                     {/* Logo/Header */}
                     <div className="text-center mb-8">
                         <div className="flex items-center justify-center gap-3 mb-6">
-                            <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl">
+                            <div className="p-3 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-2xl">
                                 <Sparkles className="w-8 h-8 text-white" />
                             </div>
-                            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
                                 Nexus
                             </h1>
                         </div>
@@ -74,16 +74,16 @@ function page() {
                     </div>
 
                     {/* Register Form */}
-                    <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
+                    <div className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-8 shadow-2xl">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
+                            <div className="p-2 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-xl">
                                 <UserPlus className="w-5 h-5 text-white" />
                             </div>
                             <h2 className="text-2xl font-bold text-gray-200">Create Account</h2>
                         </div>
 
                         {error && (
-                            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                            <div className="mb-6 p-4 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-xl">
                                 <p className="text-red-400 text-sm">{error}</p>
                             </div>
                         )}
@@ -100,7 +100,7 @@ function page() {
                                         value={username}
                                         onChange={e => setUsername(e.target.value)}
                                         required
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        className="w-full pl-12 pr-4 py-3 bg-black/30 border border-[#1E3E62]/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6500]/50 focus:border-[#FF6500]/50 transition-all duration-200 backdrop-blur-sm"
                                         placeholder="Choose a username"
                                     />
                                 </div>
@@ -117,7 +117,7 @@ function page() {
                                         value={email}
                                         onChange={e => setEmail(e.target.value)}
                                         required
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        className="w-full pl-12 pr-4 py-3 bg-black/30 border border-[#1E3E62]/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6500]/50 focus:border-[#FF6500]/50 transition-all duration-200 backdrop-blur-sm"
                                         placeholder="Enter your email"
                                     />
                                 </div>
@@ -134,7 +134,7 @@ function page() {
                                         value={password}
                                         onChange={e => setPassword(e.target.value)}
                                         required
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        className="w-full pl-12 pr-4 py-3 bg-black/30 border border-[#1E3E62]/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6500]/50 focus:border-[#FF6500]/50 transition-all duration-200 backdrop-blur-sm"
                                         placeholder="Create a password"
                                     />
                                 </div>
@@ -151,7 +151,7 @@ function page() {
                                         value={confirmPassword}
                                         onChange={e => setConfirmPassword(e.target.value)}
                                         required
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-600/50 rounded-xl text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-200"
+                                        className="w-full pl-12 pr-4 py-3 bg-black/30 border border-[#1E3E62]/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6500]/50 focus:border-[#FF6500]/50 transition-all duration-200 backdrop-blur-sm"
                                         placeholder="Confirm your password"
                                     />
                                 </div>
@@ -160,7 +160,7 @@ function page() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                                className="w-full bg-gradient-to-r from-[#FF6500] to-orange-700 hover:from-orange-600 hover:to-[#FF6500] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-[#FF6500]/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {isLoading ? (
                                     <>
@@ -176,12 +176,12 @@ function page() {
                             </button>
                         </form>
 
-                        <div className="mt-6 pt-6 border-t border-gray-700/50">
+                        <div className="mt-6 pt-6 border-t border-[#1E3E62]/30">
                             <p className="text-center text-gray-400">
                                 Already have an account?{' '}
                                 <Link 
                                     href="/login" 
-                                    className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-200"
+                                    className="text-[#FF6500] hover:text-orange-600 font-medium transition-colors duration-200"
                                 >
                                     Sign In
                                 </Link>
