@@ -21,7 +21,7 @@ function page() {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/posts/${postId}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts/${postId}`,
           {
             withCredentials: true,
           }
@@ -54,7 +54,7 @@ function page() {
     }
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/posts/${postId}/comment`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts/${postId}/comment`,
         {
           content: newComment,
         },
@@ -87,7 +87,7 @@ function page() {
     }
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/posts/${postId}/like`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts/${postId}/like`,
         {},
         {
           withCredentials: true,

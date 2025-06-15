@@ -22,7 +22,7 @@ export default function Home() {
     const fetchPosts = async () => {
       setIsLoadingPosts(true);
       try {
-        const res = await axios.get("http://localhost:8080/api/posts");
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`);
         setPosts(res.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -75,7 +75,7 @@ export default function Home() {
         formData.append("image", selectedImage);
       }
       const res = await axios.post(
-        "http://localhost:8080/api/posts",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`,
         formData,
         {
           withCredentials: true,
@@ -108,7 +108,7 @@ export default function Home() {
     }
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/posts/${postId}/like`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts/${postId}/like`,
         {},
         {
           withCredentials: true,

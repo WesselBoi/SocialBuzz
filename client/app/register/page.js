@@ -32,7 +32,7 @@ function page() {
         }
         try {
             setIsLoading(true);
-            const res = await axios.post('http://localhost:8080/api/auth/register', {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`, {
                 username,
                 email,
                 password

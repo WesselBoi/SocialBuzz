@@ -27,7 +27,7 @@ function page() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`,
         {
           email,
           password,

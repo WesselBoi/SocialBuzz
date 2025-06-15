@@ -23,7 +23,7 @@ function Search() {
     const timeout = setTimeout(async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/users?username=${encodeURIComponent(searchTerm)}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users?username=${encodeURIComponent(searchTerm)}`
         );
         setResults(res.data);
         setError(null);

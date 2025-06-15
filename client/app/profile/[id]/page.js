@@ -20,7 +20,7 @@ export default function Profile() {
     async function fetchUser() {
       setIsLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8080/api/users/${id}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}`, {
           withCredentials: true,
         });
         setUser(res.data);
@@ -32,7 +32,7 @@ export default function Profile() {
 
     const fetchUserPosts = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/posts");
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`);
         setPosts(res.data.filter((post) => post.userId._id === id));
       } catch (error) {
         setError("Failed to fetch posts");
@@ -67,7 +67,7 @@ export default function Profile() {
 
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/users/follow/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/follow/${id}`,
         {},
         {
           withCredentials: true,
@@ -93,7 +93,7 @@ export default function Profile() {
 
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/users/unfollow/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/unfollow/${id}`,
         {},
         {
           withCredentials: true,
