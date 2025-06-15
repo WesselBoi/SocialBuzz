@@ -22,7 +22,9 @@ export default function Home() {
     const fetchPosts = async () => {
       setIsLoadingPosts(true);
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`
+        );
         setPosts(res.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -130,21 +132,27 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900 flex flex-col md:flex-row">
       {/* Left padding for sidebar on desktop */}
       <div className="hidden md:block md:w-64 flex-shrink-0" />
-      
+
       {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-start pt-8 px-3 md:px-6">
         {/* Hero section */}
         <div className="w-full max-w-2xl mb-8">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="p-3 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-2xl shadow-lg">
-                <Sparkles className="w-8 h-8 text-white" />
+            <div className="flex items-center justify-center mb-4">
+              <div className="rounded-2xl shadow-lg">
+                <img
+                  src="/image-copy.png"
+                  alt="SocialBuzz Logo"
+                  className="w-32 h-32 object-contain"
+                />
               </div>
               <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-                Nexus
+                SocialBuzz
               </h1>
             </div>
-            <p className="text-gray-400 text-lg">Share your thoughts with the world</p>
+            <p className="text-gray-400 text-lg">
+              Share your thoughts with the world
+            </p>
           </div>
         </div>
 
@@ -229,62 +237,64 @@ export default function Home() {
         </div>
 
         {/* Posts Feed */}
-          <div className="w-full max-w-2xl space-y-6">
-            {isLoadingPosts ? (
-              <div className="text-center py-12">
-                <div className="inline-block w-8 h-8 border-4 border-[#FF6500]/30 border-t-[#FF6500] rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-400">Loading your feed...</p>
+        <div className="w-full max-w-2xl space-y-6">
+          {isLoadingPosts ? (
+            <div className="text-center py-12">
+              <div className="inline-block w-8 h-8 border-4 border-[#FF6500]/30 border-t-[#FF6500] rounded-full animate-spin mb-4"></div>
+              <p className="text-gray-400">Loading your feed...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-12 bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl">
+              <div className="p-4 bg-gradient-to-r from-[#1E3E62]/30 to-[#1E3E62]/20 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <MessageCircle className="w-8 h-8 text-gray-400" />
               </div>
-            ) : posts.length === 0 ? (
-              <div className="text-center py-12 bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl">
-                <div className="p-4 bg-gradient-to-r from-[#1E3E62]/30 to-[#1E3E62]/20 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-            <MessageCircle className="w-8 h-8 text-gray-400" />
-                </div>
-                <p className="text-gray-400 text-lg mb-2">No posts yet</p>
-                <p className="text-gray-500">Be the first to share something amazing!</p>
-              </div>
-            ) : (
-              posts.map((post) => (
-                <div
-            key={post._id}
-            className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 shadow-2xl hover:shadow-2xl hover:shadow-[#FF6500]/10 transition-all duration-300 cursor-pointer group hover:border-[#1E3E62]/50"
-                >
-            <Link href={`/posts/${post._id}`} className="cursor-auto">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
-                  {post.userId?.username?.[0]?.toUpperCase() || "U"}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-white text-lg">
-              {post.userId?.username || "Unknown User"}
-                  </h3>
-                  <p className="text-gray-400 text-sm">
-              {post.createdAt
-                ? new Date(post.createdAt).toLocaleString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                : ""}
-                  </p>
-                </div>
-              </div>
-              
-              {post.content && (
-                <p className="text-gray-300 mb-4 leading-relaxed text-lg">
-                  {post.content}
-                </p>
-              )}
+              <p className="text-gray-400 text-lg mb-2">No posts yet</p>
+              <p className="text-gray-500">
+                Be the first to share something amazing!
+              </p>
+            </div>
+          ) : (
+            posts.map((post) => (
+              <div
+                key={post._id}
+                className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 shadow-2xl hover:shadow-2xl hover:shadow-[#FF6500]/10 transition-all duration-300 cursor-pointer group hover:border-[#1E3E62]/50"
+              >
+                <Link href={`/posts/${post._id}`} className="cursor-auto">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
+                      {post.userId?.username?.[0]?.toUpperCase() || "U"}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-white text-lg">
+                        {post.userId?.username || "Unknown User"}
+                      </h3>
+                      <p className="text-gray-400 text-sm">
+                        {post.createdAt
+                          ? new Date(post.createdAt).toLocaleString(undefined, {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : ""}
+                      </p>
+                    </div>
+                  </div>
 
-              {/* Post Image */}
+                  {post.content && (
+                    <p className="text-gray-300 mb-4 leading-relaxed text-lg">
+                      {post.content}
+                    </p>
+                  )}
+
+                  {/* Post Image */}
                   {post.image && post.image.url && (
                     <div className="mb-4 rounded-xl overflow-hidden">
                       <img
                         src={post.image.url}
                         alt="Post image"
-                        className="w-full h-100 object-cover hover:scale-105 transition-transform duration-300"
+                        className="w-full h-150 object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   )}
@@ -301,14 +311,20 @@ export default function Home() {
                     >
                       <Heart
                         size={18}
-                        className={isLikedByCurrentUser(post) ? "fill-current" : ""}
+                        className={
+                          isLikedByCurrentUser(post) ? "fill-current" : ""
+                        }
                       />
-                      <span className="font-medium">{post.likes?.length || 0}</span>
+                      <span className="font-medium">
+                        {post.likes?.length || 0}
+                      </span>
                     </button>
-                    
+
                     <div className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-[#1E3E62] hover:bg-gradient-to-r hover:from-[#1E3E62]/10 hover:to-[#1E3E62]/5 rounded-xl transition-all duration-200">
                       <MessageCircle size={18} />
-                      <span className="font-medium">{post.comments?.length || 0}</span>
+                      <span className="font-medium">
+                        {post.comments?.length || 0}
+                      </span>
                     </div>
                   </div>
                 </Link>

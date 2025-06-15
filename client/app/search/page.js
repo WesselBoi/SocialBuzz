@@ -56,7 +56,7 @@ function Search() {
                 Search
               </h1>
             </div>
-            <p className="text-gray-400 text-lg">Discover amazing people on Nexus</p>
+            <p className="text-gray-400 text-lg">Discover amazing people on SocialBuzz</p>
           </div>
         </div>
 
@@ -147,7 +147,7 @@ function Search() {
                 <SearchIcon className="w-8 h-8 text-gray-400" />
               </div>
               <p className="text-gray-400 text-lg mb-2">Start typing to search</p>
-              <p className="text-gray-500">Find and connect with other users on Nexus</p>
+              <p className="text-gray-500">Find and connect with other users on SocialBuzz</p>
             </div>
           )}
         </div>

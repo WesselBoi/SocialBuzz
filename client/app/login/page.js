@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { LogIn, Mail, Lock, Sparkles, User } from "lucide-react";
+import { LogIn, Mail, Lock } from "lucide-react";
 
 function page() {
   const [email, setEmail] = useState("");
@@ -65,15 +66,23 @@ function page() {
         <div className="w-full max-w-md">
           {/* Logo/Header */}
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="p-3 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-2xl">
-                <Sparkles className="w-8 h-8 text-white" />
+            <div className="flex flex-col items-center justify-center mb-6">
+              <div className="w-32 h-32 rounded-2xl shadow-lg flex items-center justify-center">
+                <Image
+                  src="/image.webp"
+                  alt="SocialBuzz Logo"
+                  width={64}
+                  height={64}
+                  className="w-32 h-32 object-contain"
+                />
               </div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-                Nexus
+                SocialBuzz
               </h1>
             </div>
-            <p className="text-gray-400 text-lg">Welcome back to your social world</p>
+            <p className="text-gray-400 text-lg">
+              Welcome back to your social world
+            </p>
           </div>
 
           {/* Login Form */}
@@ -129,7 +138,7 @@ function page() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-[#FF6500] to-orange-700 hover:from-orange-600 hover:to-[#FF6500] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-[#FF6500]/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-[#FF6500] to-orange-700 hover:from-orange-700 hover:to-[#FF6500] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-[#FF6500]/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isLoading ? (
                   <>
