@@ -161,7 +161,7 @@ export default function Navbar() {
               
               {/* Navigation Links */}
               <div className="flex-1 p-6">
-                <div className="space-y-2">
+                <div className="space-y-2" onClick={() => setMenuOpen(false)}>
                   {navLinks}
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default function Navbar() {
               {/* Footer */}
               <div className="p-6 border-t border-gray-700/50">
                 <p className="text-xs text-gray-500">
-                  © 2024 Nexus Social
+                  © 2025 Nexus Social
                 </p>
               </div>
             </div>

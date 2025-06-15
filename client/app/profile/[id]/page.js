@@ -145,10 +145,12 @@ export default function Profile() {
                     <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent mb-2">
                       {user?.username}
                     </h1>
+                    {currentUser === user?._id && (
                     <div className="flex items-center justify-center md:justify-start gap-2 text-gray-400 mb-4">
                       <Mail className="w-4 h-4" />
                       <span>{user?.email}</span>
                     </div>
+                    )}
                     
                     {/* Stats */}
                     <div className="flex items-center justify-center md:justify-start gap-6 text-sm">
