@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LogIn, Mail, Lock } from "lucide-react";
 
-function page() {
+function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -172,4 +172,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

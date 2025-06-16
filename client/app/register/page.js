@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { UserPlus, Mail, Lock, User } from "lucide-react";
 
-function page() {
+function Page() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -215,4 +215,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

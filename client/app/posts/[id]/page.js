@@ -5,7 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import { Heart, MessageCircle, ArrowLeft, Send, User, Clock, Image as ImageIcon, Sparkles } from "lucide-react";
 
-function page() {
+function Page() {
   const [post, setPost] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -336,4 +336,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
