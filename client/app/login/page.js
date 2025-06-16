@@ -17,7 +17,7 @@ function Page() {
     if (localStorage.getItem("userId")) {
       router.push("/");
     }
-  }, []);
+  }, [router]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -156,7 +156,7 @@ function Page() {
 
             <div className="mt-6 pt-6 border-t border-[#1E3E62]/30">
               <p className="text-center text-gray-400">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
                   href="/register"
                   className="text-[#FF6500] hover:text-orange-600 font-medium transition-colors duration-200"

@@ -19,7 +19,7 @@ function Page() {
     if (localStorage.getItem("userId")) {
       router.push("/");
     }
-  }, []);
+  }, [router]);
 
   async function handleRegister(e) {
     e.preventDefault();
