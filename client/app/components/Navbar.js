@@ -114,7 +114,7 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile navbar */}
-      <nav className="md:hidden bg-gradient-to-r from-[#0B192C] to-[#1E3E62]/80 backdrop-blur-xl border-b border-[#1E3E62]/30 p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50 shadow-lg">
+      <nav className="md:hidden bg-gradient-to-r from-[#0B192C] to-[#1E3E62]/100 backdrop-blur-xl border-b border-[#1E3E62]/30 p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50 shadow-lg">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-12 h-8 rounded-lg p-1 shadow-lg flex items-center justify-center">
             <Image
