@@ -2,13 +2,6 @@
 *A modern full-stack social media app built with Next.js & Node.js*
 
 ---
-
-## 🖼️ SocialBuzz Logo  
-<!-- Insert image here -->
-![SocialBuzz Logo](path/to/logo.png)
-
----
-
 ## 🌟 Features
 
 - **User Authentication** – Secure registration & login with JWT
