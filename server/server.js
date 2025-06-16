@@ -19,7 +19,7 @@ connectToMongoDb(process.env.MONGO_URI)
 // Middleware
 app.use(cors(
   {
-    origin: 'https://social-buzz-1010.vercel.app/',
+    origin: 'https://social-buzz-1010.vercel.app',
     credentials: true, 
   }
 ));

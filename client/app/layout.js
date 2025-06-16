@@ -2,7 +2,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 
 export const metadata = {
-  title: "Social Media App",
+  title: "SocialBuzz",
   description: "A social media platform built with Next.js",
 };
 
