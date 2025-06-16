@@ -40,8 +40,9 @@ async function HandleLogin(req, res) {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // Changed for cross-origin
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      domain: process.env.NODE_ENV === "production" ? undefined : "localhost", // No domain for production
     });
     res.status(200).json({
       message: "Login successful",
@@ -59,7 +60,8 @@ async function HandleLogout(req, res) {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // Changed for cross-origin
+      domain: process.env.NODE_ENV === "production" ? undefined : "localhost",
     });
     res.status(200).json({ message: "Logout successful" });
   } catch (err) {

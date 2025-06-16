@@ -16,13 +16,17 @@ connectToMongoDb(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Middleware
-app.use(cors(
-  {
-    origin: 'https://social-buzz-1010.vercel.app',
-    credentials: true, 
-  }
-));
+// Updated CORS configuration
+app.use(cors({
+  origin: [
+    "http://localhost:3000", // Local development
+    "https://social-buzz-1010.vercel.app", 
+  ],
+  credentials: true, // This is crucial for cookies
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
