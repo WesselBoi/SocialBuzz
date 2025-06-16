@@ -1,6 +1,8 @@
 # 🌐 SocialBuzz 🚀  
 *A modern full-stack social media app built with Next.js & Node.js*
 
+[![My Skills](https://skillicons.dev/icons?i=nextjs,js,react,tailwind,nodejs,express,mongo,vercel,github,postman)](https://skillicons.dev)
+
 ---
 ## 🌟 Features
 
@@ -18,6 +20,7 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Next.js 15** – App Router enabled React framework  
 - **React 18** – Functional components with hooks  
 - **Tailwind CSS** – Utility-first CSS  
@@ -26,6 +29,9 @@
 - **Vercel** – Frontend deployment  
 
 ### Backend
+
+
+
 - **Node.js** – JavaScript runtime  
 - **Express.js** – Backend routing  
 - **MongoDB** – NoSQL database  
@@ -41,19 +47,27 @@
 ## 📁 Project Structure
 
 ```bash
-/socialbuzz
-  ├── server/
-  │   ├── controllers/
-  │   ├── models/
-  │   ├── routes/
-  │   ├── .env
-  │   └── server.js
-  └── client/
-      ├── components/
-      ├── pages/
-      ├── styles/
-      ├── public/
-      └── .env.local
+SocialMediaApp/
+├── client/                 # Next.js Frontend
+│   ├── app/
+│   │   ├── components/     # Reusable components
+│   │   │   └── Navbar.js
+│   │   ├── login/          # Login page
+│   │   ├── register/       # Registration page
+│   │   ├── search/         # Search functionality
+│   │   ├── profile/        # User profiles
+│   │   ├── posts/          # Post details
+│   │   └── globals.css     # Global styles
+│   ├── public/             # Static assets
+│   └── package.json
+├── server/                 # Node.js Backend
+│   ├── controllers/        # Route controllers 
+│   ├── models/            # Database models
+│   ├── middleware/        # Custom middleware
+│   ├── routes/            # API routes
+│   ├── index.js           # Server entry point
+│   └── package.json
+└── README.md
 ```
 ---
 
