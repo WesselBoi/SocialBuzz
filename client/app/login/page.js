@@ -69,7 +69,7 @@ function Page() {
             <div className="flex flex-col items-center justify-center mb-6">
               <div className="w-32 h-32 rounded-2xl shadow-lg flex items-center justify-center">
                 <Image
-                  src="/image.webp"
+                  src="/image-copy.png"
                   alt="SocialBuzz Logo"
                   width={64}
                   height={64}
