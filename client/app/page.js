@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { Heart, MessageCircle, X, Image, Plus, Sparkles } from "lucide-react";
@@ -14,27 +14,48 @@ export default function Home() {
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [likeError, setLikeError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // make it a useCallback
+  const fetchPosts = useCallback(async (pageNum = 1, reset = false) => {
+    try {
+      if (pageNum === 1) setIsLoadingPosts(true);
+      else setIsLoadingMore(true);
+
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts?page=${pageNum}&limit=10`
+      );
+
+      if (reset) {
+        setPosts(res.data.posts);
+      } else {
+        setPosts((prev) => [...prev, ...res.data.posts]);
+      }
+
+      setHasMore(res.data.hasMore);
+      setPage(pageNum);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      setError("Failed to load posts. Please try again.");
+    } finally {
+      setIsLoadingPosts(false);
+      setIsLoadingMore(false);
+    }
+  }, []);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     setCurrentUserId(userId);
+    fetchPosts(1, true);
+  }, [fetchPosts]);
 
-    const fetchPosts = async () => {
-      setIsLoadingPosts(true);
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`
-        );
-        setPosts(res.data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setError("Failed to fetch posts. Please try again later.");
-      } finally {
-        setIsLoadingPosts(false);
-      }
-    };
-    fetchPosts();
-  }, []);
+  const loadMore = () => {
+    if (hasMore && !isLoadingMore) {
+      fetchPosts(page + 1);
+    }
+  };
 
   function handleImageSelect(e) {
     const file = e.target.files[0];
@@ -254,82 +275,104 @@ export default function Home() {
               </p>
             </div>
           ) : (
-            posts.map((post) => (
-              <div
-                key={post._id}
-                className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 shadow-2xl hover:shadow-2xl hover:shadow-[#FF6500]/10 transition-all duration-300 cursor-pointer group hover:border-[#1E3E62]/50"
-              >
-                <Link href={`/posts/${post._id}`} className="cursor-auto">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
-                      {post.userId?.username?.[0]?.toUpperCase() || "U"}
+            <>
+              {posts.map((post) => (
+                <div
+                  key={post._id}
+                  className="bg-gradient-to-br from-[#0B192C]/80 to-[#1E3E62]/40 backdrop-blur-xl border border-[#1E3E62]/30 rounded-2xl p-6 shadow-2xl hover:shadow-2xl hover:shadow-[#FF6500]/10 transition-all duration-300 cursor-pointer group hover:border-[#1E3E62]/50"
+                >
+                  <Link href={`/posts/${post._id}`} className="cursor-auto">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-[#FF6500] to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
+                        {post.userId?.username?.[0]?.toUpperCase() || "U"}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-white text-lg">
+                          {post.userId?.username || "Unknown User"}
+                        </h3>
+                        <p className="text-gray-400 text-sm">
+                          {post.createdAt
+                            ? new Date(post.createdAt).toLocaleString(undefined, {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })
+                            : ""}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-white text-lg">
-                        {post.userId?.username || "Unknown User"}
-                      </h3>
-                      <p className="text-gray-400 text-sm">
-                        {post.createdAt
-                          ? new Date(post.createdAt).toLocaleString(undefined, {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })
-                          : ""}
+
+                    {post.content && (
+                      <p className="text-gray-300 mb-4 leading-relaxed text-lg">
+                        {post.content}
                       </p>
+                    )}
+
+                    {/* Post Image */}
+                    {post.image && post.image.url && (
+                      <div className="mb-4 rounded-xl overflow-hidden">
+                        <img
+                          src={post.image.url}
+                          alt="Post image"
+                          className="w-full h-150 object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+
+                    {/* Interaction Bar */}
+                    <div className="flex items-center gap-6 pt-4 border-t border-[#1E3E62]/30">
+                      <button
+                        className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
+                          isLikedByCurrentUser(post)
+                            ? "text-[#FF6500] bg-gradient-to-r from-[#FF6500]/10 to-orange-600/10 hover:from-[#FF6500]/20 hover:to-orange-600/20 cursor-pointer"
+                            : "text-gray-400 hover:text-[#FF6500] hover:bg-gradient-to-r hover:from-[#FF6500]/10 hover:to-orange-600/10 cursor-pointer"
+                        }`}
+                        onClick={(e) => handleLikePost(post._id, e)}
+                      >
+                        <Heart
+                          size={18}
+                          className={
+                            isLikedByCurrentUser(post) ? "fill-current" : ""
+                          }
+                        />
+                        <span className="font-medium">
+                          {post.likes?.length || 0}
+                        </span>
+                      </button>
+
+                      <div className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-[#1E3E62] hover:bg-gradient-to-r hover:from-[#1E3E62]/10 hover:to-[#1E3E62]/5 rounded-xl transition-all duration-200">
+                        <MessageCircle size={18} />
+                        <span className="font-medium">
+                          {post.comments?.length || 0}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
+                </div>
+              ))}
 
-                  {post.content && (
-                    <p className="text-gray-300 mb-4 leading-relaxed text-lg">
-                      {post.content}
-                    </p>
-                  )}
-
-                  {/* Post Image */}
-                  {post.image && post.image.url && (
-                    <div className="mb-4 rounded-xl overflow-hidden">
-                      <img
-                        src={post.image.url}
-                        alt="Post image"
-                        className="w-full h-150 object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-
-                  {/* Interaction Bar */}
-                  <div className="flex items-center gap-6 pt-4 border-t border-[#1E3E62]/30">
-                    <button
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
-                        isLikedByCurrentUser(post)
-                          ? "text-[#FF6500] bg-gradient-to-r from-[#FF6500]/10 to-orange-600/10 hover:from-[#FF6500]/20 hover:to-orange-600/20 cursor-pointer"
-                          : "text-gray-400 hover:text-[#FF6500] hover:bg-gradient-to-r hover:from-[#FF6500]/10 hover:to-orange-600/10 cursor-pointer"
-                      }`}
-                      onClick={(e) => handleLikePost(post._id, e)}
-                    >
-                      <Heart
-                        size={18}
-                        className={
-                          isLikedByCurrentUser(post) ? "fill-current" : ""
-                        }
-                      />
-                      <span className="font-medium">
-                        {post.likes?.length || 0}
-                      </span>
-                    </button>
-
-                    <div className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-[#1E3E62] hover:bg-gradient-to-r hover:from-[#1E3E62]/10 hover:to-[#1E3E62]/5 rounded-xl transition-all duration-200">
-                      <MessageCircle size={18} />
-                      <span className="font-medium">
-                        {post.comments?.length || 0}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))
+              {/* Load More Button */}
+              {hasMore && (
+                <div className="text-center py-6">
+                  <button
+                    onClick={loadMore}
+                    disabled={isLoadingMore}
+                    className="bg-gradient-to-r from-[#FF6500] to-orange-600 hover:from-orange-600 hover:to-[#FF6500] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50"
+                  >
+                    {isLoadingMore ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block mr-2" />
+                        Loading...
+                      </>
+                    ) : (
+                      "Load More"
+                    )}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
         <div className="h-10"></div>

@@ -10,7 +10,7 @@ async function handleCreatePost(req, res) {
   try {
     const postData = {
       userId: req.user.userId,
-      content: req.body?.content || "", 
+      content: req.body?.content || "",
     };
 
     if (req.file) {
@@ -39,13 +39,15 @@ async function handleLikeAndUnlikePost(req, res) {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ error: "Post not found" });
 
-    const userId = req.user.userId
+    const userId = req.user.userId;
     const isLiked = post.likes.includes(userId);
 
     if (!isLiked) {
-      post.likes.push(userId);    //Like
-    } else{
-      post.likes = post.likes.filter((id) => id.toString() !== userId.toString())   //Unlike
+      post.likes.push(userId); //Like
+    } else {
+      post.likes = post.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      ); //Unlike
     }
     await post.save();
 
@@ -59,7 +61,6 @@ async function handleLikeAndUnlikePost(req, res) {
   }
 }
 
-
 async function handleCommentOnPost(req, res) {
   try {
     const comment = await Comment.create({
@@ -69,8 +70,10 @@ async function handleCommentOnPost(req, res) {
     });
 
     // Populate userId with username
-    const populatedComment = await Comment.findById(comment._id)
-    .populate("userId", "username");
+    const populatedComment = await Comment.findById(comment._id).populate(
+      "userId",
+      "username"
+    );
 
     const post = await Post.findById(req.params.id);
     post.comments.push(comment._id);
@@ -84,13 +87,28 @@ async function handleCommentOnPost(req, res) {
 
 async function handleGetAllPosts(req, res) {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
     const posts = await Post.find()
       .populate("userId", "username") 
-      .populate("comments") // replaces comments with the Comment model
-      .sort({ createdAt: -1 }); 
-    res.json(posts);
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean(); 
+
+    const totalPosts = await Post.countDocuments();
+    const hasMore = skip + posts.length < totalPosts;
+
+    res.json({
+      posts,
+      hasMore,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / limit),
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -104,9 +122,10 @@ async function handleGetPostById(req, res) {
       .populate({
         path: "comments",
         populate: {
-          path: "userId", select: "username"
-        }
-      })
+          path: "userId",
+          select: "username",
+        },
+      });
     if (!post) return res.status(404).json({ error: "Post not found" });
     res.json(post);
   } catch (error) {
