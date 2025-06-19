@@ -21,10 +21,12 @@ app.use(cors({
   origin: [
     "http://localhost:3000", // Local development
     "https://social-buzz-1010.vercel.app", 
+    "https://socialmedia-mfvi.onrender.com"
   ],
-  credentials: true, // This is crucial for cookies
+  credentials: true, 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization' , 'Cookie'],
+  exposedHeaders: ['Set-Cookie'], 
 }));
 
 app.use(express.json());
