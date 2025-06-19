@@ -13,7 +13,7 @@ export default function Profile() {
   const [isFollowing, setIsFollowing] = useState();
   const { id } = useParams();
 
-  const currentUser = localStorage.getItem("userId")
+  const currentUser = localStorage.getItem("userId");
 
   useEffect(() => {
     if (!id) return;
@@ -26,14 +26,25 @@ export default function Profile() {
         setUser(res.data);
       } catch (error) {
         console.error("Error fetching user:", error);
+        setError("Failed to fetch user profile");
       }
       setIsLoading(false);
     }
 
     const fetchUserPosts = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts`);
-        setPosts(res.data.filter((post) => post.userId._id === id));
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/posts?limit=100`, {
+          withCredentials: true
+        });
+        
+        const allPosts = res.data.posts || res.data; // Handle both old and new format
+        
+        const userPosts = allPosts.filter((post) => {
+          const postUserId = post.userId?._id || post.userId;
+          return postUserId === id;
+        });
+        
+        setPosts(userPosts);
       } catch (error) {
         setError("Failed to fetch posts");
         console.error("Error fetching posts:", error);
@@ -60,9 +71,9 @@ export default function Profile() {
   async function handleFollow() {
     if (!user) return;
 
-    if(!currentUser || currentUser === 'undefined'){
-      setError("You must be logged in to follow")
-      return
+    if (!currentUser || currentUser === 'undefined') {
+      setError("You must be logged in to follow");
+      return;
     }
 
     try {
@@ -130,6 +141,12 @@ export default function Profile() {
             <div className="inline-block w-8 h-8 border-4 border-[#FF6500]/30 border-t-[#FF6500] rounded-full animate-spin mb-4"></div>
             <p className="text-gray-400">Loading profile...</p>
           </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="p-4 bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20 rounded-xl">
+              <p className="text-red-400">{error}</p>
+            </div>
+          </div>
         ) : (
           <>
             {/* Profile Header */}
@@ -146,10 +163,10 @@ export default function Profile() {
                       {user?.username}
                     </h1>
                     {currentUser === user?._id && (
-                    <div className="flex items-center justify-center md:justify-start gap-2 text-gray-400 mb-4">
-                      <Mail className="w-4 h-4" />
-                      <span>{user?.email}</span>
-                    </div>
+                      <div className="flex items-center justify-center md:justify-start gap-2 text-gray-400 mb-4">
+                        <Mail className="w-4 h-4" />
+                        <span>{user?.email}</span>
+                      </div>
                     )}
                     
                     {/* Stats */}
@@ -228,7 +245,17 @@ export default function Profile() {
                             <h3 className="font-semibold text-white text-lg">
                               {user?.username || "Unknown User"}
                             </h3>
-                            <p className="text-gray-400 text-sm">Just now</p>
+                            <p className="text-gray-400 text-sm">
+                              {post.createdAt
+                                ? new Date(post.createdAt).toLocaleString(undefined, {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })
+                                : ""}
+                            </p>
                           </div>
                         </div>
                         
