@@ -14,6 +14,12 @@
 - **Dark Theme** – Gradient-based modern UI
 - **Real-time Updates** – Seamless content refresh
 - **Secure Cookies** – Enhanced security using HttpOnly
+- **Pagination** – Efficient content loading with infinite scroll or page-based navigation
+
+
+
+
+
 
 ---
 
