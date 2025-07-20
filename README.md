@@ -129,5 +129,3 @@ npm install
 npm run dev
 
 ```
-
-hmm
